@@ -9,10 +9,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import io.github.projectasteroids.components.MovementComponent;
 import io.github.projectasteroids.components.RenderLayerComponent;
 import io.github.projectasteroids.components.TextureComponent;
 import io.github.projectasteroids.components.TransformComponent;
 import io.github.projectasteroids.ecsutil.RenderLayer;
+import io.github.projectasteroids.systems.MovementSystem;
+import io.github.projectasteroids.systems.PlayerInputSystem;
 import io.github.projectasteroids.systems.RenderPipelineSystem;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
@@ -29,7 +32,12 @@ public class Main extends ApplicationAdapter {
         OrthographicCamera camera = new OrthographicCamera(800, 600);
 
         RenderPipelineSystem renderingSystem = new RenderPipelineSystem(engine,batch, camera);
+        MovementSystem movementSystem = new MovementSystem();
+        PlayerInputSystem playerInputSystem = new PlayerInputSystem();
+
         engine.addSystem(renderingSystem);
+        engine.addSystem(movementSystem);
+        engine.addSystem(playerInputSystem);
 
 
         image = new Texture("libgdx.png");
@@ -44,6 +52,7 @@ public class Main extends ApplicationAdapter {
 
         Entity player = engine.createEntity();
         TransformComponent pt = new TransformComponent();
+        MovementComponent move = new MovementComponent();
         pt.position.set(100, 80);
         pt.z = 0.5f;
         player.add(pt);
@@ -51,17 +60,8 @@ public class Main extends ApplicationAdapter {
         RenderLayerComponent pl = new RenderLayerComponent();
         pl.layer = RenderLayer.ACTORS;
         player.add(pl);
+        player.add(move);
         engine.addEntity(player);
-
-        Entity ui = engine.createEntity();
-        ui.add(new TransformComponent());
-        //ui.add(new TextureComponent(new Texture("ui.png")));
-        RenderLayerComponent uiLayer = new RenderLayerComponent();
-        uiLayer.layer = RenderLayer.UI;
-        ui.add(uiLayer);
-        engine.addEntity(ui);
-
-
 
     }
 
