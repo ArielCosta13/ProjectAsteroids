@@ -55,6 +55,7 @@ public class Main extends ApplicationAdapter {
         MovementComponent move = new MovementComponent();
         pt.position.set(100, 80);
         pt.z = 0.5f;
+        pt.scale.set(1.0f, 1.0f);
         player.add(pt);
         player.add(new TextureComponent(new Texture("Heavy Weapons Starcruise.png")));
         RenderLayerComponent pl = new RenderLayerComponent();
