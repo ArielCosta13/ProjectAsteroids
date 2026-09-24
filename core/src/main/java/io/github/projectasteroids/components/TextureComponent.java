@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TextureComponent implements Component {
+    public Texture texture;
     public TextureRegion region;
     public float centreX = 0f;
     public float centreY = 0f;
@@ -13,7 +14,7 @@ public class TextureComponent implements Component {
     public TextureComponent() {}
 
     public TextureComponent(Texture texture) {
-
+        this.texture = texture;
         this.region = new TextureRegion(texture);
         centreX = (float) texture.getWidth() / 2;
         centreY =  (float) texture.getHeight() / 2;

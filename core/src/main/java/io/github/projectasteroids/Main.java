@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import io.github.projectasteroids.assetmanagers.GameAssets;
+import io.github.projectasteroids.assetmanagers.graphics.TextureConfig;
 import io.github.projectasteroids.components.MovementComponent;
 import io.github.projectasteroids.components.RenderLayerComponent;
 import io.github.projectasteroids.components.TextureComponent;
@@ -23,11 +25,13 @@ public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
     private Texture image;
     PooledEngine engine;
+    public GameAssets assetsManager;
 
     @Override
     public void create() {
 
         engine = new PooledEngine();
+        assetsManager = new GameAssets();
         SpriteBatch batch = new SpriteBatch();
         OrthographicCamera camera = new OrthographicCamera(800, 600);
 
@@ -39,9 +43,9 @@ public class Main extends ApplicationAdapter {
         engine.addSystem(movementSystem);
         engine.addSystem(playerInputSystem);
 
-
+        assetsManager.loadTexture("Heavy Weapons Starcruise.png", TextureConfig.hdSmooth());
         image = new Texture("libgdx.png");
-
+        assetsManager.manager.finishLoading();
         Entity bg = engine.createEntity();
         bg.add(new TransformComponent());
         //bg.add(new TextureComponent(new Texture("bg.png")));
@@ -57,7 +61,9 @@ public class Main extends ApplicationAdapter {
         pt.z = 0.5f;
         pt.scale.set(1.0f, 1.0f);
         player.add(pt);
-        player.add(new TextureComponent(new Texture("Heavy Weapons Starcruise.png")));
+
+       // player.add(new TextureComponent(new Texture("Heavy Weapons Starcruise.png")));
+        player.add(new TextureComponent(assetsManager.getTexture("Heavy Weapons Starcruise.png")));
         RenderLayerComponent pl = new RenderLayerComponent();
         pl.layer = RenderLayer.ACTORS;
         player.add(pl);
