@@ -2,7 +2,7 @@ package io.github.projectasteroids;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,12 +16,14 @@ import io.github.projectasteroids.components.RenderLayerComponent;
 import io.github.projectasteroids.components.TextureComponent;
 import io.github.projectasteroids.components.TransformComponent;
 import io.github.projectasteroids.ecsutil.RenderLayer;
+import io.github.projectasteroids.screens.GameScreen;
+import io.github.projectasteroids.screens.MainMenuScreen;
 import io.github.projectasteroids.systems.MovementSystem;
 import io.github.projectasteroids.systems.PlayerInputSystem;
 import io.github.projectasteroids.systems.RenderPipelineSystem;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
-public class Main extends ApplicationAdapter {
+public class Main extends Game {
     private SpriteBatch batch;
     private Texture image;
     PooledEngine engine;
@@ -30,6 +32,9 @@ public class Main extends ApplicationAdapter {
     @Override
     public void create() {
 
+        //setScreen(new GameScreen(this));
+        setScreen(new MainMenuScreen(this));
+/*
         engine = new PooledEngine();
         assetsManager = new GameAssets();
         SpriteBatch batch = new SpriteBatch();
@@ -69,24 +74,27 @@ public class Main extends ApplicationAdapter {
         player.add(pl);
         player.add(move);
         engine.addEntity(player);
-
+*/
     }
 
     @Override
     public void render() {
-        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
+        //IMPORTANT: Without this call screen wont render
+        super.render();
+       // ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
         //batch.begin();
         //batch.draw(image, 140, 210);
         //batch.end();
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        //Gdx.gl.glClearColor(0, 0, 0, 1);
+        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        engine.update(Gdx.graphics.getDeltaTime());
+        //engine.update(Gdx.graphics.getDeltaTime());
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
-        image.dispose();
+        //batch.dispose();
+        //image.dispose();
+        if (screen != null) {screen.dispose();}
     }
 }
